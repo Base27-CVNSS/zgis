@@ -93,10 +93,14 @@
     $("#breadcrumb-current").textContent = labels[view];
     document.title = labels[view] + " | ZGIS — Ví Zcash tiếng Việt";
     closeSidebar();
-    if (window.scrollY > 100) window.scrollTo({ top: 0, behavior: "instant" });
+    if (window.scrollY > 100) window.scrollTo({ top: 0, behavior: "auto" });
   }
   function viewFromHash() {
-    return decodeURIComponent(window.location.hash.replace(/^#/, "")) || "tong-quan";
+    try {
+      return decodeURIComponent(window.location.hash.replace(/^#/, "")) || "tong-quan";
+    } catch (_) {
+      return "tong-quan";
+    }
   }
   function openView(view) {
     if (!VALID_VIEWS.has(view)) return;
