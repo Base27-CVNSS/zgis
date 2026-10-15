@@ -1,3 +1,9 @@
+## ZGIS — Bản giao diện web tiếng Việt
+
+Trang demo nằm tại [index.html](index.html), gồm tổng quan tài sản, gửi/nhận ZEC, lịch sử, sổ địa chỉ và cài đặt. Xem [hướng dẫn](web-ui/README.md) để chạy cục bộ hoặc bật GitHub Pages. **Dữ liệu chỉ là minh họa; giao diện web không kết nối ví thật, không gửi ZEC.**
+
+---
+
 ## What is this?
 
 Zkool is a multi-account wallet for Zcash.
