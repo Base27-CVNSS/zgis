@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'none'; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>ZGIS — Công cụ WIF ngoại tuyến</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#e9effa;background:#0d1420;font-size:15px}*{box-sizing:border-box}body{max-width:1050px;margin:0 auto;padding:28px 18px 55px;line-height:1.65}a{color:#f1c56a}header{display:flex;justify-content:space-between;gap:15px;align-items:center}h1{font-size:clamp(25px,4vw,34px);line-height:1.2;margin:6px 0 13px}h2{font-size:20px;margin:0 0 13px}h3{font-size:16px}p{color:#adbed2;margin:9px 0 16px}.eyebrow{color:#e4b865;text-transform:uppercase;letter-spacing:.13em;font-weight:800;font-size:11px}.tag{background:#1a3441;color:#91e1b7;border-radius:99px;padding:7px 12px;font-size:12px;font-weight:800;white-space:nowrap}.alert{border:1px solid #d2a14a88;background:#362916;padding:17px 18px;border-radius:15px;color:#f8daaa;margin:22px 0}.alert strong{display:block}.alert p{color:#f0d4a2}.shell{display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px;margin-top:22px}.sidebar,.panel{background:#141f30;border:1px solid #2a3d55;border-radius:17px;padding:21px}.sidebar button{display:block;width:100%;margin-bottom:8px;text-align:left}.sidebar small{display:block;color:#a9bad0;margin-top:14px}.panel{min-height:390px}.view{display:none}.view.active{display:block}.view[hidden]{display:none}button,.btn{font:inherit;cursor:pointer;border-radius:10px;padding:11px 15px;font-weight:700;border:1px solid #435570;background:#24354b;color:#f4f7fc}button:hover{border-color:#e7bd69}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e4bc68;outline-offset:2px}.sidebar button.active,.primary{background:#e6b95f;color:#142033;border-color:#e6b95f}.secondary{background:transparent}.row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1}label{display:block;margin:14px 0 7px;font-weight:650;font-size:13px}input[type=text],input[type=password],select{width:100%;background:#0c1420;border:1px solid #40556f;color:#eff5ff;padding:13px 14px;border-radius:10px;font:inherit;min-width:0}input[readonly]{color:#f5d58e}button[disabled]{opacity:.5;cursor:not-allowed}.choice{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid #334960;border-radius:10px;margin:8px 0;cursor:pointer;font-weight:500}.choice input{accent-color:#e7b958}.callout{border-left:3px solid #e6b95f;padding:8px 14px;background:#1b2b41;border-radius:0 10px 10px 0;margin:14px 0;color:#d5e0eb}.result{display:none;margin-top:18px;padding-top:15px;border-top:1px solid #3c4c61}.result.show{display:block}.result button{font-size:12px;padding:8px 12px;margin-top:8px}.status{white-space:pre-wrap;padding:12px 0;min-height:16px;color:#8ee2ac;font-size:13px}.status.error{color:#ffa5a5}.hint{font-size:12px;color:#aebdd0}.checklist label{font-size:14px;font-weight:400;display:flex;gap:12px;align-items:start;margin:12px 0}.checklist input{margin-top:6px;accent-color:#e9c06b}.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:20px 0}.step{background:#213149;border-radius:12px;padding:13px;font-size:13px;color:#d6e1ec}.step b{display:block;color:#f1cc77;font-size:19px}.footer{font-size:12px;color:#9cacc2;margin-top:32px;border-top:1px solid #35445b;padding-top:15px}code{word-break:break-word;color:#e6c16d}@media(max-width:730px){header{align-items:flex-start}.shell{grid-template-columns:1fr}.sidebar{display:flex;gap:7px;flex-wrap:wrap;padding:12px}.sidebar button{width:auto;flex:1 1 135px}.sidebar small{width:100%;margin:0}.panel{padding:18px}.flow{grid-template-columns:1fr}.row{flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+<div><div class="eyebrow">ZGIS · khôi phục ví minh bạch</div><h1>Công cụ WIF ngoại tuyến</h1><p>Chuyển đổi và kiểm tra định dạng khóa riêng tư Zcash t-address, không kết nối ví hay chuỗi khối.</p></div>
+<span class="tag" id="mode-tag">CHƯA XÁC NHẬN OFFLINE</span>
+</header>
+<div class="alert" role="alert"><strong>⚠ Trước khi nhập khóa thật</strong><p><b>Không nhập WIF, HEX hoặc seed phrase trên bản chạy ở GitHub Pages.</b> Chỉ dùng tệp HTML đã tải xuống trên máy tính tin cậy, ngắt Internet trước khi mở. Kiểm tra mã nguồn và dùng ví đã được kiểm toán để quét tiền. Trang này không tạo, ký hay phát giao dịch; không thể đảm bảo thiết bị của bạn không có mã độc.</p></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Công cụ">
+<button type="button" class="active" data-tab="wif">🔑 HEX / WIF</button>
+<button type="button" data-tab="sweep">🧹 Quét (Sweep)</button>
+<button type="button" data-tab="restore">🔄 Khôi phục tài khoản</button>
+<button type="button" data-tab="safety">🛡️ An toàn & kiểm thử</button>
+<small>Chỉ hỗ trợ khóa minh bạch Mainnet WIF <code>0x80</code>. Không hỗ trợ khóa shielded, địa chỉ <code>zs</code>, <code>u1</code> hoặc <code>zc</code>.</small>
+</nav>
+<main>
+<section class="panel view active" data-panel="wif">
+<h2>Chuyển đổi và xác thực WIF</h2>
+<p>WIF không phải thuật toán nén khóa bí mật. Cờ <code>0x01</code> xác định biểu diễn khóa công khai tương ứng; đổi cờ có thể tạo ra địa chỉ <code>t1…</code> khác.</p>
+<div class="row">
+<div><label for="input-kind">Đầu vào</label><select id="input-kind"><option value="hex">Khóa HEX (64 ký tự)</option><option value="wif">Khóa WIF (5…, K…, L…)</option></select></div>
+<div><label for="format">Định dạng WIF ưu tiên</label><select id="format"><option value="uncompressed">Không nén — 5…</option><option value="compressed">Nén — K…/L…</option></select></div>
+</div>
+<label for="secret">Khóa riêng tư (chỉ nhập khi đã ngắt mạng)</label>
+<input id="secret" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Không có khóa nào được lưu">
+<label class="choice"><input type="checkbox" id="confirm-local">Tôi xác nhận đang dùng tệp ngoại tuyến trên thiết bị tin cậy.</label>
+<div class="row"><button id="run" class="primary" type="button">Kiểm tra và chuyển đổi</button><button id="clear" class="secondary" type="button">Xóa dữ liệu ngay</button></div>
+<div id="status" role="status" class="status" aria-live="polite"></div>
+<div class="result" id="result">
+<div class="callout" id="result-info"></div>
+<label for="out-hex">HEX (bí mật)</label><input id="out-hex" readonly type="password" aria-label="Khóa HEX kết quả"><button type="button" data-toggle="out-hex">Hiện / ẩn HEX</button>
+<label for="out-plain">WIF không nén — 5… (bí mật)</label><input id="out-plain" readonly type="password" aria-label="WIF không nén"><button type="button" data-toggle="out-plain">Hiện / ẩn WIF 5</button>
+<label for="out-compressed">WIF nén — K…/L… (bí mật)</label><input id="out-compressed" readonly type="password" aria-label="WIF nén"><button type="button" data-toggle="out-compressed">Hiện / ẩn WIF K L</button>
+<p class="hint">Đây là ba biểu diễn của cùng một số bí mật, nhưng <b>không khẳng định cùng một địa chỉ Zcash</b>. Công cụ không suy ra địa chỉ t1, không kiểm tra số dư và không xác nhận quyền kiểm soát địa chỉ.</p>
+<button id="copy-selected" type="button" class="secondary">Sao chép WIF ưu tiên (rủi ro clipboard)</button>
+</div>
+</section>
+<section class="panel view" data-panel="sweep" hidden>
+<h2>Quy trình Quét (Sweep) an toàn</h2>
+<p>Sweep là <b>một giao dịch on-chain thật</b> chuyển UTXO từ địa chỉ nguồn sang ví mới, thường trừ phí mạng. Công cụ HTML này không có quyền ký/phát và không đọc UTXO.</p>
+<div class="flow"><div class="step"><b>01</b>Xác minh t1 nguồn đúng dạng khóa gốc</div><div class="step"><b>02</b>Tạo ví đích mới và sao lưu seed ngoại tuyến</div><div class="step"><b>03</b>Quét bằng ứng dụng ví tin cậy, kiểm tra giao dịch</div></div>
+<div class="checklist">
+<label><input type="checkbox" class="sweep-check"> Tôi đã xác định khóa nguồn là WIF không nén hay WIF nén và đối chiếu địa chỉ t1 nguồn bằng ứng dụng ví đáng tin.</label>
+<label><input type="checkbox" class="sweep-check"> Tôi đã tạo một tài khoản đích mới và xác minh khả năng khôi phục từ bản sao lưu.</label>
+<label><input type="checkbox" class="sweep-check"> Tôi đã kiểm tra tải ví Zkool từ kho chính thức, đối chiếu bản phát hành và xác thực phần mềm.</label>
+<label><input type="checkbox" class="sweep-check"> Tôi đã kiểm tra số dư nguồn, số tiền nhận sau phí, địa chỉ đích và xác nhận giao dịch trên thiết bị tin cậy.</label>
+</div>
+<div id="sweep-status" class="callout">Hãy hoàn tất các bước trước khi dùng phần mềm ví thật. Không gửi khóa cho ZGIS.</div>
+<p>Tài liệu Zkool: <a href="https://github.com/hhanh00/zkool2" target="_blank" rel="noopener noreferrer">GitHub chính thức</a>. Hỗ trợ cụ thể của phiên bản dành cho WIF <code>5…</code> cần được kiểm tra trên bản phát hành đang sử dụng.</p>
+</section>
+<section class="panel view" data-panel="restore" hidden>
+<h2>Restore an account — chọn đúng phương thức</h2>
+<p>Khôi phục tài khoản là nạp lại danh tính ví từ seed hoặc khóa được ứng dụng hỗ trợ. Restore không nhất thiết chuyển UTXO sang khóa mới; quét mới là giao dịch chuyển tiền.</p>
+<label for="restore-kind">Dữ liệu khôi phục hiện có (không nhập nội dung bí mật)</label>
+<select id="restore-kind">
+<option value="seed">Cụm từ khôi phục 12/24 từ</option>
+<option value="wif">Một khóa WIF 5… / K… / L…</option>
+<option value="xprv">Extended private key xprv hoặc nguồn tương đương</option>
+<option value="xpub">Viewing key / xpub (chỉ xem)</option>
+<option value="shielded">Khóa hoặc seed của nhóm shielded</option>
+</select>
+<div id="restore-advice" class="callout"></div>
+<p>Không dán seed phrase, xprv hay khóa WIF trên trang này. Trường nhập của Zkool phải được lựa chọn theo đúng loại khóa và phiên bản ứng dụng.</p>
+</section>
+<section class="panel view" data-panel="safety" hidden>
+<h2>Quy tắc kỹ thuật & tự kiểm tra</h2>
+<p><b>Mainnet WIF không nén</b> = Base58Check(<code>0x80 || secret[32]</code>). <b>Mainnet WIF nén</b> = Base58Check(<code>0x80 || secret[32] || 0x01</code>).</p>
+<p>Giải mã WIF phải kiểm tra checksum double-SHA256 và đảm bảo secret nằm trong khoảng <code>1 ≤ k &lt; n</code> của secp256k1. Tiền tố ký tự một mình không xác thực khóa.</p>
+<button type="button" id="self-test" class="primary">Chạy kiểm thử bằng khóa công khai mẫu</button>
+<div id="test-status" class="status" role="status" aria-live="polite"></div>
+<div class="callout">Địa chỉ minh bạch Zcash <code>t1…</code> sử dụng P2PKH với version bytes <code>0x1C 0xB8</code>; không lấy địa chỉ Bitcoin <code>1…</code> làm địa chỉ Zcash. Công cụ này cố ý không tự suy ra địa chỉ.</div>
+<p>Không sao chép khóa vào email, log, tiện ích trình duyệt hay công cụ AI. Sau khi quét thành công, giữ ví cũ làm bằng chứng nguồn gốc nhưng không tái sử dụng khóa đã lộ.</p>
+</section>
+</main>
+</div>
+<div class="footer">ZGIS · Chỉ chạy trong trình duyệt · Không có RPC, endpoint, analytics, storage, thư viện bên ngoài, ký hoặc phát giao dịch. Giải pháp công cụ hỗ trợ, không phải ví giám hộ tài sản.</div>
+<script>
+"use strict";
+(() => {
+const alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+const n=BigInt("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141");
+const $=(id)=>document.getElementById(id);
+let lastFormat="uncompressed";
+const hex=(bytes)=>Array.from(bytes,x=>x.toString(16).padStart(2,"0")).join("");
+function erase(){
+ ["secret","out-hex","out-plain","out-compressed"].forEach(id=>{$(id).value="";$(id).type="password"});
+ $("result").classList.remove("show");$("status").textContent="Dữ liệu đầu vào và đầu ra đã được xóa khỏi biểu mẫu.";
+ $("status").classList.remove("error");
+}
+function parseHex(input){
+ const value=input.trim().replace(/^0x/i,"");
+ if(!/^[0-9a-fA-F]{64}$/.test(value))throw Error("HEX phải có đúng 64 ký tự hợp lệ.");
+ const k=BigInt("0x"+value);
+ if(k===0n||k>=n)throw Error("Khóa không thuộc miền hợp lệ secp256k1.");
+ return Uint8Array.from(value.match(/../g).map(x=>parseInt(x,16)));
+}
+function b58encode(bytes){
+ let num=BigInt("0x"+hex(bytes)),out="";
+ while(num>0n){const rem=Number(num%58n);out=alphabet[rem]+out;num/=58n;}
+ for(const b of bytes){if(b!==0)break;out="1"+out;}
+ return out||"1";
+}
+function b58decode(input){
+ if(!input||input.length>150)throw Error("Chuỗi Base58 không hợp lệ.");
+ let num=0n;
+ for(const ch of input){const i=alphabet.indexOf(ch);if(i<0)throw Error("WIF chứa ký tự không thuộc Base58.");num=num*58n+BigInt(i);}
+ let s=num?num.toString(16):"";if(s.length%2)s="0"+s;
+ const decoded=s?Uint8Array.from(s.match(/../g).map(v=>parseInt(v,16))):new Uint8Array();
+ let zeros=0;for(const c of input){if(c!=="1")break;zeros++;}
+ const out=new Uint8Array(zeros+decoded.length);out.set(decoded,zeros);return out;
+}
+async function sha256(bytes){
+ if(!globalThis.crypto?.subtle)throw Error("WebCrypto SHA-256 không khả dụng. Mở tệp bằng trình duyệt hỗ trợ file:// hoặc máy chủ cục bộ ngoại tuyến.");
+ return new Uint8Array(await crypto.subtle.digest("SHA-256",bytes));
+}
+async function check4(data){return (await sha256(await sha256(data))).slice(0,4);}
+async function toWIF(secret,compressed){
+ const payload=new Uint8Array(compressed?34:33);payload[0]=0x80;payload.set(secret,1);if(compressed)payload[33]=1;
+ const all=new Uint8Array(payload.length+4);all.set(payload);all.set(await check4(payload),payload.length);
+ return b58encode(all);
+}
+async function fromWIF(value){
+ const bytes=b58decode(value.trim());
+ if(bytes.length!==37&&bytes.length!==38)throw Error("Độ dài WIF không đúng (37/38 byte sau giải mã).");
+ const body=bytes.slice(0,-4),check=await check4(body);let mismatch=0;
+ for(let i=0;i<4;i++)mismatch|=check[i]^bytes[body.length+i];
+ if(mismatch)throw Error("Checksum Base58Check sai — không sử dụng khóa này.");
+ if(body[0]!==0x80)throw Error("Chỉ hỗ trợ WIF Zcash Mainnet, version 0x80.");
+ const compressed=body.length===34;
+ if(compressed&&body[33]!==1)throw Error("Cờ nén WIF phải bằng 0x01.");
+ const secret=body.slice(1,33);
+ parseHex(hex(secret));
+ return {secret,compressed};
+}
+function showStatus(message,error=false){$("status").textContent=message;$("status").classList.toggle("error",error);}
+async function calculate(){
+ $("result").classList.remove("show");const value=$("secret").value;
+ if(!$("confirm-local").checked)return showStatus("Cần xác nhận chế độ xử lý cục bộ.",true);
+ if(!value.trim())return showStatus("Chưa nhập giá trị.",true);
+ if(!globalThis.crypto?.subtle)return showStatus("Không có WebCrypto SHA-256, không thể kiểm tra checksum.",true);
+ $("run").disabled=true;showStatus("Đang xác thực checksum trên thiết bị…");
+ try{
+ let secret,kind;
+ if($("input-kind").value==="hex"){secret=parseHex(value);kind="Khóa HEX hợp lệ.";}
+ else{const decoded=await fromWIF(value);secret=decoded.secret;kind="Checksum WIF hợp lệ; đầu vào là "+(decoded.compressed?"WIF nén (K/L).":"WIF không nén (5).");$("format").value=decoded.compressed?"compressed":"uncompressed";}
+ const [plain,compressed]=await Promise.all([toWIF(secret,false),toWIF(secret,true)]);
+ $("out-hex").value=hex(secret);$("out-plain").value=plain;$("out-compressed").value=compressed;
+ lastFormat=$("format").value;
+ $("result-info").textContent=kind+" Không đổi chế độ WIF trước khi đối chiếu địa chỉ nguồn! Checksum hợp lệ không chứng minh có số dư hay sở hữu địa chỉ mong muốn.";
+ $("result").classList.add("show");showStatus("Đã hoàn thành chuyển đổi Base58Check. Không kết nối blockchain.");
+ }catch(error){showStatus(error.message||"Có lỗi khi xử lý khóa.",true)}
+ finally{$("run").disabled=false;}
+}
+function restoreAdvice(){
+ const notes={
+ seed:"Chọn Restore Account trong ví đáng tin, chọn loại seed và đúng derivation path, passphrase, account index, birthday/block height. Kiểm tra lại địa chỉ công khai trước khi chuyển ZEC.",
+ wif:"Một WIF là khóa đơn lẻ, không phải seed 12/24 từ. Zkool có hỗ trợ một số khóa riêng tư minh bạch; kiểm tra bản phát hành và loại WIF cụ thể. Nếu ví không thể phục hồi trực tiếp, dùng luồng Sweep được ví hỗ trợ. Đừng tự thay WIF 5 bằng K/L để tìm cùng địa chỉ.",
+ xprv:"Extended private key chứa khả năng sinh nhiều khóa. Chỉ nhập trong ứng dụng ví ngoại tuyến/tin cậy, chọn đúng đường dẫn dẫn xuất và tài khoản; không nhầm với WIF đơn lẻ.",
+ xpub:"xpub hoặc viewing key chỉ xem, thường không thể ký chi tiêu. Khôi phục thông tin theo chế độ watch-only, cần khóa chi tiêu hoặc thiết bị gốc để chuyển tài sản.",
+ shielded:"Khóa Sapling/Orchard/Sprout không phải WIF transparent 0x80. Cần quy trình hỗ trợ pool, nâng cấp mạng và phiên bản ví tương ứng; không dùng bộ chuyển đổi HEX/WIF minh bạch."
+ };
+ $("restore-advice").textContent=notes[$("restore-kind").value];
+}
+async function selfTest(){
+ const r=$("test-status");r.textContent="Đang kiểm tra…";r.classList.remove("error");
+ try{
+ const one=parseHex("0".repeat(63)+"1");
+ const old="5HpHagT65TZzG1PH3CSu63k8DbpvD8s5ip4nEB3kEsreAnchuDf";
+ const modern="KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn";
+ const ok=(await toWIF(one,false))===old&&(await toWIF(one,true))===modern;
+ const x=await fromWIF(old),y=await fromWIF(modern);
+ if(!ok||x.compressed||!y.compressed||hex(x.secret)!==hex(one)||hex(y.secret)!==hex(one))throw Error("Không trùng vector thử nghiệm.");
+ let corrupted=old.slice(0,-1)+(old.endsWith("1")?"2":"1"),rejected=false;
+ try{await fromWIF(corrupted)}catch(_){rejected=true}
+ if(!rejected)throw Error("Không phát hiện checksum hỏng.");
+ r.textContent="PASS: HEX → WIF 5 / K, WIF → HEX và từ chối checksum sai bằng vector secret = 1. Chưa phải kiểm toán bảo mật.";
+ }catch(e){r.classList.add("error");r.textContent="FAIL: "+e.message;}
+}
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
+ document.querySelectorAll("[data-panel]").forEach(p=>{const active=p.dataset.panel===b.dataset.tab;p.classList.toggle("active",active);p.hidden=!active;});
+}));
+$("input-kind").addEventListener("change",()=>{erase();$("format").disabled=$("input-kind").value==="wif";});
+$("format").addEventListener("change",()=>{lastFormat=$("format").value;$("result").classList.remove("show");});
+$("run").addEventListener("click",calculate);
+$("clear").addEventListener("click",erase);
+document.querySelectorAll("[data-toggle]").forEach(b=>b.addEventListener("click",()=>{const e=$(b.dataset.toggle);e.type=e.type==="password"?"text":"password";}));
+$("copy-selected").addEventListener("click",async()=>{
+ if(!$("result").classList.contains("show"))return;
+ const value=$(lastFormat==="compressed"?"out-compressed":"out-plain").value;
+ if(!confirm("Clipboard có thể bị ứng dụng khác đọc. Sao chép WIF?"))return;
+ try{await navigator.clipboard.writeText(value);showStatus("Đã sao chép vào clipboard. Hãy xóa clipboard sau khi sử dụng.");}catch(_){showStatus("Clipboard bị chặn. Hãy hiện khóa và sao chép thủ công trong môi trường ngoại tuyến.",true);}
+});
+document.querySelectorAll(".sweep-check").forEach(x=>x.addEventListener("change",()=>{
+ $("sweep-status").textContent=[...document.querySelectorAll(".sweep-check")].every(x=>x.checked)
+ ? "Danh sách đã đủ. Mở ứng dụng Zkool đáng tin cậy để thao tác thật; ZGIS không thực hiện giao dịch."
+ : "Chưa hoàn thành đầy đủ. Không thực hiện giao dịch khi còn bước chưa xác minh.";
+}));
+$("restore-kind").addEventListener("change",restoreAdvice);restoreAdvice();
+$("self-test").addEventListener("click",selfTest);
+window.addEventListener("pagehide",erase);
+document.addEventListener("visibilitychange",()=>{if(document.hidden){erase();}});
+const local=location.protocol==="file:";
+$("mode-tag").textContent=local?"TỆP LOCAL · HÃY NGẮT MẠNG":"ĐANG PHỤC VỤ QUA WEB · KHÔNG NHẬP KHÓA";
+$("mode-tag").style.color=local?"#91e1b7":"#ffb4ad";
+if(!local){$("run").disabled=true;$("secret").disabled=true;$("confirm-local").disabled=true;$("status").textContent="Trang không chạy từ tệp file://; chức năng nhập khóa đã bị khóa. Hãy tải tệp HTML và mở ngoại tuyến.";}
+})();
+</script>
+</body>
+</html>
