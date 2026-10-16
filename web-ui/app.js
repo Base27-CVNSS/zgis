@@ -3,15 +3,17 @@
 /**
  * ZGIS — bản trình diễn UI, không kết nối ví hoặc mạng lưới Zcash.
  * KHÔNG chứa mã xử lý khóa riêng, ký giao dịch, RPC, địa chỉ nhận thật.
+ * Bộ chuyển đổi khóa thực được tách thành tệp HTML chạy ngoại tuyến.
  */
 (() => {
-  const VALID_VIEWS = new Set(["tong-quan", "gui-zec", "nhan-zec", "lich-su", "so-dia-chi", "cai-dat"]);
+  const VALID_VIEWS = new Set(["tong-quan", "gui-zec", "nhan-zec", "lich-su", "so-dia-chi", "cai-dat", "khoi-phuc"]);
   const labels = {
     "tong-quan": "Tổng quan",
     "gui-zec": "Gửi ZEC",
     "nhan-zec": "Nhận ZEC",
     "lich-su": "Lịch sử giao dịch",
     "so-dia-chi": "Sổ địa chỉ",
+    "khoi-phuc": "Khôi phục & Quét WIF",
     "cai-dat": "Cài đặt & bảo mật"
   };
   // Đây là các giao dịch GIẢ LẬP, không phải txid hay dữ liệu khớp mạng thật.
@@ -207,6 +209,19 @@
     notify("Đã xuất CSV mẫu. Không chứa giao dịch thực tế.");
   }
 
+
+  function updateRecoveryGuide() {
+    const descriptions = {
+      seed: "Khôi phục bằng seed trong ứng dụng ví tin cậy. Đúng số từ chưa đủ: còn phải kiểm tra passphrase, chỉ số tài khoản, đường dẫn dẫn xuất và địa chỉ nhận.",
+      wif: "Một WIF 5… hoặc K…/L… là khóa riêng tư minh bạch đơn lẻ, KHÔNG phải seed phrase. Kiểm tra xem phiên bản Zkool có nhận dạng khóa cụ thể hay có chức năng Sweep. Không đổi 5… thành K/L rồi cho rằng cùng địa chỉ.",
+      extended: "xprv quản lý nhiều khóa dẫn xuất. Xác nhận đúng mạng, derivation path và account index khi khôi phục. Không nhập xprv vào trang web.",
+      view: "xpub và viewing keys chủ yếu cho phép quan sát tài khoản; không đủ quyền ký chi tiêu. Muốn gửi tiền cần spending key hoặc thiết bị ký tương ứng.",
+      shielded: "Khóa shielded Sapling/Orchard/Sprout không phải WIF minh bạch 0x80. Phải dùng ứng dụng ví và quy trình khôi phục đúng pool, có hỗ trợ phiên bản mạng."
+    };
+    const selection = $("#recovery-type");
+    if (selection) $("#recovery-advice").textContent = descriptions[selection.value];
+  }
+
   function init() {
     const date = new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "long", year: "numeric" }).format(new Date());
     $("#hom-nay").textContent = date;
@@ -261,6 +276,8 @@
       renderTransactions();
     }));
     $("#export-button").addEventListener("click", exportSampleCsv);
+    $("#recovery-type").addEventListener("change", updateRecoveryGuide);
+    updateRecoveryGuide();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
