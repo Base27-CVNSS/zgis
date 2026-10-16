@@ -50,6 +50,10 @@
         <button type="button" class="nav-item" data-view="lich-su"><svg><use href="#i-clock"/></svg><span>Lịch sử giao dịch</span></button>
         <button type="button" class="nav-item" data-view="so-dia-chi"><svg><use href="#i-book"/></svg><span>Sổ địa chỉ</span></button>
       </nav>
+      <div class="side-section-title lower">KHÔI PHỤC VÍ</div>
+      <nav class="nav-list" aria-label="Khôi phục khóa và ví cũ">
+        <button type="button" class="nav-item" data-view="khoi-phuc"><svg><use href="#i-lock"/></svg><span>Khôi phục & Quét WIF</span></button>
+      </nav>
       <div class="side-section-title lower">HỆ THỐNG</div>
       <nav class="nav-list" aria-label="Hệ thống">
         <button type="button" class="nav-item" data-view="cai-dat"><svg><use href="#i-settings"/></svg><span>Cài đặt & bảo mật</span></button>
@@ -95,6 +99,44 @@
         <section class="view" id="view-lich-su" aria-labelledby="title-lich-su"><div class="page-heading"><div><p class="eyebrow">THEO DÕI HOẠT ĐỘNG</p><h1 id="title-lich-su">Lịch sử giao dịch</h1><p>Tìm kiếm, lọc và xuất dữ liệu giao dịch mô phỏng.</p></div><button type="button" class="button button-outline" id="export-button"><svg><use href="#i-download"/></svg> Xuất CSV mẫu</button></div><section class="panel history-panel"><div class="filters-bar"><label class="search-field"><svg><use href="#i-search"/></svg><input type="search" id="tx-search" placeholder="Tìm theo mô tả hoặc mã mẫu" aria-label="Tìm giao dịch"></label><div class="filter-tabs" role="group" aria-label="Lọc giao dịch"><button class="filter-tab active" type="button" data-filter="all" aria-pressed="true">Tất cả</button><button class="filter-tab" type="button" data-filter="in" aria-pressed="false">Đã nhận</button><button class="filter-tab" type="button" data-filter="out" aria-pressed="false">Đã gửi</button></div></div><div class="table-scroll"><table class="tx-table"><thead><tr><th>Hoạt động</th><th>Loại địa chỉ</th><th>Ngày</th><th class="right">Số lượng</th><th>Trạng thái</th></tr></thead><tbody id="history-rows"></tbody></table></div><div class="empty-state" id="empty-history" hidden>Không tìm thấy giao dịch mẫu phù hợp.</div><p class="table-footer" id="transaction-count">6 giao dịch mẫu</p></section></section>
 
         <section class="view" id="view-so-dia-chi" aria-labelledby="title-so-dia-chi"><div class="page-heading"><div><p class="eyebrow">QUẢN LÝ NGƯỜI NHẬN</p><h1 id="title-so-dia-chi">Sổ địa chỉ</h1><p>Quản lý danh sách liên hệ mẫu để hình dung trải nghiệm của ứng dụng.</p></div></div><div class="contacts-grid"><article class="contact-card"><span class="contact-avatar">A</span><div><strong>Tài khoản A</strong><small>Liên hệ minh họa • Chưa có địa chỉ ví</small></div><span class="contact-type">Mẫu</span></article><article class="contact-card"><span class="contact-avatar alt">B</span><div><strong>Tài khoản B</strong><small>Liên hệ minh họa • Chưa có địa chỉ ví</small></div><span class="contact-type">Mẫu</span></article><article class="contact-card"><span class="contact-avatar alt-2">C</span><div><strong>Tài khoản C</strong><small>Liên hệ minh họa • Chưa có địa chỉ ví</small></div><span class="contact-type">Mẫu</span></article></div><section class="panel info-panel"><svg><use href="#i-info"/></svg><div><strong>Bảo vệ thông tin cá nhân</strong><p>Danh sách mẫu không lưu hoặc truyền dữ liệu người dùng. Chức năng lưu sổ địa chỉ thực tế cần tích hợp vào lớp ứng dụng ví gốc.</p></div></section></section>
+
+
+        <section class="view" id="view-khoi-phuc" aria-labelledby="title-khoi-phuc">
+          <div class="page-heading"><div><p class="eyebrow">CỨU HỘ VÍ MINH BẠCH ZCASH</p><h1 id="title-khoi-phuc">Khôi phục & Quét khóa WIF</h1><p>Hướng dẫn phục hồi ví giấy cũ và chuyển đổi HEX / WIF theo cách hạn chế lộ khóa riêng tư.</p></div></div>
+          <div class="recovery-warning" role="note"><svg><use href="#i-shield"/></svg><div><strong>Không dán khóa WIF, HEX, xprv hoặc seed phrase vào GitHub Pages</strong><p>Trang web này không nhận khóa bí mật. Công cụ chuyển đổi thực chỉ mở khi tải thành tệp độc lập và chạy ngoại tuyến trên máy tin cậy. Không kết nối mạng Zcash, không ký giao dịch và không tự động chuyển tiền.</p></div></div>
+          <div class="recovery-grid">
+            <article class="panel recovery-feature">
+              <span class="recovery-counter">01 / HEX ↔ WIF</span><h2>Khóa nén và không nén</h2>
+              <p>Phân biệt WIF <code>5…</code> (không nén) và <code>K…/L…</code> (nén). Tính Base58Check với version <code>0x80</code>, kiểm tra SHA-256 kép và miền secp256k1.</p>
+              <div class="recovery-pills"><span>Không nén: 51 ký tự</span><span>Nén: 52 ký tự</span></div>
+              <a class="button button-primary recovery-download" href="./tools/zcash-recovery-offline.html" download="zgis-khoi-phuc-offline.html"><svg><use href="#i-download"/></svg> Tải công cụ ngoại tuyến</a>
+              <small>Tải tệp HTML → kiểm tra mã nguồn → ngắt mạng → mở bằng trình duyệt. Không sử dụng bản chạy trực tuyến để nhập khóa.</small>
+            </article>
+            <article class="panel recovery-feature">
+              <span class="recovery-counter">02 / SWEEP</span><h2>Quét tiền sang ví mới</h2>
+              <p>Sweep là <strong>giao dịch Zcash thật</strong> nhằm tiêu UTXO từ khóa cũ và đưa giá trị, sau phí, đến địa chỉ ví mới.</p>
+              <ol><li>Xác minh địa chỉ <code>t1…</code> gốc và dạng WIF cũ.</li><li>Tạo ví đích mới; sao lưu và kiểm tra seed.</li><li>Dùng bản ví có hỗ trợ, xác minh địa chỉ đích và phí.</li><li>Xác nhận giao dịch trên chuỗi bằng ví thật.</li></ol>
+              <p class="recovery-footnote">ZGIS Web không rà quét UTXO, không ký, không phát sóng. Khả năng Sweep khóa <code>5…</code> tùy phiên bản ví.</p>
+            </article>
+            <article class="panel recovery-feature">
+              <span class="recovery-counter">03 / RESTORE</span><h2>Khôi phục tài khoản</h2>
+              <p>Chọn đúng loại dữ liệu đang có, không nhập nội dung bí mật vào trang web này:</p>
+              <label for="recovery-type">Loại dữ liệu của bạn</label>
+              <select id="recovery-type" class="recovery-select">
+                <option value="seed">Cụm từ khôi phục 12 / 24 từ</option>
+                <option value="wif">WIF riêng lẻ 5… / K… / L…</option>
+                <option value="extended">Extended private key xprv</option>
+                <option value="view">Viewing key / xpub</option>
+                <option value="shielded">Khóa nhóm shielded</option>
+              </select>
+              <div class="recovery-advice" id="recovery-advice" role="status" aria-live="polite">Sử dụng chức năng Restore Account trong ví tin cậy, kiểm tra passphrase, account index và đường dẫn dẫn xuất.</div>
+            </article>
+          </div>
+          <section class="panel recovery-technical" aria-label="Kiến thức xác thực khóa">
+            <div><p class="overline">CƠ CHẾ MÃ HÓA</p><h2>HEX không nén không đồng nghĩa chuyển tiền</h2><p><code>Base58Check(0x80 || 32-byte-key)</code> cho WIF không nén; thêm hậu tố <code>0x01</code> trước checksum sẽ được WIF nén. Hai định dạng giữ cùng số bí mật nhưng có thể tương ứng với <strong>hai địa chỉ t1 khác nhau</strong>. Chuyển đổi WIF không phải Sweep.</p></div>
+            <div><p class="overline">NGUỒN PHẦN MỀM</p><h2>Chọn ví đủ năng lực</h2><p>Kiểm tra <a href="https://github.com/hhanh00/zkool2" target="_blank" rel="noopener noreferrer">Zkool từ tác giả</a> và <a href="https://hhanh00.github.io/zkool2/recipe/restore.html" target="_blank" rel="noopener noreferrer">tài liệu loại khóa được hỗ trợ</a>. <code>zcashd</code> đã ngừng hỗ trợ mạng chính sau nâng cấp năm 2026, không coi hướng dẫn cũ là quy trình khuyến nghị hiện tại.</p></div>
+          </section>
+        </section>
 
         <section class="view" id="view-cai-dat" aria-labelledby="title-cai-dat"><div class="page-heading"><div><p class="eyebrow">TÙY CHỈNH VÀ AN TOÀN</p><h1 id="title-cai-dat">Cài đặt & bảo mật</h1><p>Điều chỉnh giao diện và tìm hiểu các nguyên tắc bảo vệ ví Zcash.</p></div></div><div class="section-layout"><section class="panel settings-panel"><div class="panel-header"><div><p class="overline">CÁ NHÂN HÓA</p><h2>Tùy chọn hiển thị</h2></div></div><div class="setting-row"><div><strong>Giao diện tối</strong><small>Chuyển giữa nền sáng và nền tối.</small></div><button class="switch" id="dark-toggle" type="button" role="switch" aria-checked="false" aria-label="Bật giao diện tối"><span></span></button></div><div class="setting-row"><div><strong>Hiện số dư minh họa</strong><small>Ẩn số dư khi chia sẻ màn hình.</small></div><button class="switch on" id="balance-toggle" type="button" role="switch" aria-checked="true" aria-label="Hiện số dư"><span></span></button></div><div class="setting-row"><div><strong>Giảm hiệu ứng chuyển động</strong><small>Phù hợp với người cần hạn chế hoạt ảnh.</small></div><button class="switch" id="motion-toggle" type="button" role="switch" aria-checked="false" aria-label="Giảm hiệu ứng chuyển động"><span></span></button></div><div class="settings-note">Các tùy chọn này chỉ tác động tới trình duyệt, không thay đổi cài đặt ví Zkool gốc.</div></section><aside class="panel security-panel"><div class="panel-header"><div><p class="overline">NGUYÊN TẮC AN TOÀN</p><h2>Bảo vệ ví của bạn</h2></div></div><div class="security-rule"><svg><use href="#i-check"/></svg><span>Không chia sẻ cụm từ khôi phục hoặc khóa bí mật.</span></div><div class="security-rule"><svg><use href="#i-check"/></svg><span>Chỉ tải ứng dụng ví từ nguồn đáng tin cậy và kiểm tra chữ ký phát hành.</span></div><div class="security-rule"><svg><use href="#i-check"/></svg><span>Đối chiếu toàn bộ địa chỉ trước khi xác nhận gửi tiền.</span></div><div class="security-rule"><svg><use href="#i-check"/></svg><span>Không coi giao diện mô phỏng là bằng chứng số dư thật.</span></div><a class="external-link" href="https://github.com/Base27-CVNSS/zgis" target="_blank" rel="noopener noreferrer">Xem mã nguồn dự án <svg><use href="#i-arrow"/></svg></a></aside></div></section>
       </main>
