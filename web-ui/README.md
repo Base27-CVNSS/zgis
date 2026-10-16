@@ -38,3 +38,19 @@ Chỉ nên triển khai sau khi có thiết kế bảo mật, kiểm toán giao 
 Các chức năng nhạy cảm như tạo khóa, giải mã seed, ký giao dịch **không được đặt trực tiếp trong frontend web tĩnh**. Nếu cần điều khiển ví, nên dùng một kênh được xác thực mạnh trên máy cục bộ, phân quyền, kiểm tra địa chỉ và hiển thị xác nhận độc lập từ ví.
 
 **Không được gửi ZEC vào bất kỳ chuỗi hiển thị trong bản demo này.**
+
+## Khôi phục ví cũ: HEX, WIF, Sweep và Restore (2026)
+
+Giao diện công khai bổ sung menu **Khôi phục & Quét WIF** (\`#khoi-phuc\`) với phần giải thích, quy trình khôi phục và trình chọn dạng chứng thực. **Không có ô nhập khóa bí mật trên GitHub Pages**.
+
+File \`tools/zcash-recovery-offline.html\` là công cụ chuyển đổi khóa thực, độc lập (không tải thư viện ngoài). Sau khi tải về, kiểm tra nguồn, ngắt kết nối mạng và mở qua \`file://\` trên máy tin cậy:
+- HEX 32 byte ⇄ WIF Mainnet \`0x80\`, lựa chọn biểu diễn nén (\`K/L\`) / không nén (\`5\`).
+- Decode Base58Check, xác minh SHA-256 hai lần / 4 byte checksum, độ dài, cờ \`0x01\` và miền vô hướng secp256k1.
+- Không làm nhầm **đổi WIF** với **chuyển ZEC**. Không suy ra địa chỉ t1; xác minh địa chỉ bằng ví đáng tin trước khi quét. Không hỗ trợ seed, xprv, khóa shielded trong bộ chuyển đổi.
+- Tab Sweep trình bày checklist an toàn, Restore giải thích đường khôi phục theo loại khóa. **Không ký, không chuyển tiền, không đọc UTXO, không có RPC**.
+- Khi HTML được phục vụ qua \`http:\` hoặc \`https:\`, ô nhập khóa và nút chuyển đổi bị vô hiệu hóa. Chỉ mở nhập ở \`file://\`; cả trong trường hợp này, người dùng phải tự ngắt mạng.
+- Tự kiểm tra WIF với secret thử nghiệm = 1 (không dùng làm khóa lưu tiền), phát hiện checksum sai.
+- Dữ liệu khóa không ghi vào \`localStorage\`, \`sessionStorage\`, URL, cookies hoặc gửi qua network; CSP chặn \`connect-src\`. DOM được xóa khi trang ẩn/đóng và theo nút xóa, nhưng JavaScript không thể bảo đảm xóa sạch bộ nhớ trình duyệt/clipboard.
+- Không coi mã HTML này là thư viện mật mã đã kiểm toán. Bản dựng cho người dùng thực cần đánh giá bảo mật độc lập và xác minh tích hợp phiên bản Zkool được hỗ trợ.
+
+Nguồn đối chiếu: [Zcash ZEWIF](https://github.com/zcash/zewif), [Zkool](https://github.com/hhanh00/zkool2), [hướng dẫn Restore](https://hhanh00.github.io/zkool2/guide/accounts.html) và [zcashd end-of-life](https://z.cash/support/zcashd-deprecation/).
